@@ -3,12 +3,13 @@
 <head> 
 	<meta charset="utf-8"/>
 	<title>Cafeteria</title>
+	<link href="https://fonts.googleapis.com/css?family=Pacifico|Yanone+Kaffeesatz" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="./css/cssgaribaldo.css"/>
 	<script type="text/javascript" src="./js/jquery.min.js"></script>
 	<script type="text/javascript">
 		$(function(){
-			function produto(id, nome, valor){
-				return {"id": id, "nome": nome, "valorUnitario": valor};
+			function produto(id, nome, qtd, valor){
+				return {"id": id, "nome": nome, "quantidade": qtd, "valorUnitario": valor};
 			}
 			function pesquisaPorId(vetor, objId){
 				var objetoEscolhido;
@@ -19,14 +20,20 @@
 				});
 				return objetoEscolhido;
 			}
-			var cardapioArray=	[
-								produto(1, "Espresso", 4)
-								, produto(2, "Capuccino", 7)
-								, produto(3, "Chococcino", 100)
-								, produto(4, "Moccha", 8)
-								, produto(5, "Frapuccino", 13)
-								, produto(6, "Suquinho de Laranjinha", 4)
-								, produto(7, "Espresso Ristreto", 50)
+			function calculaTotal(vetor, obj){
+				var calculo;
+				$.each(vetor, function(indice, obj){
+					calculo= calulo+numero;
+				});
+			}
+			var cardapioArray=[
+								produto(1, "Espresso de Diamante",1, 4.00)
+								, produto(2, "Capuccino",1, 7.00)
+								, produto(3, "Chococcino",1, 100.00)
+								, produto(4, "Moccha",1, 8.00)
+								, produto(5, "Frapuccino",1, 13.00)
+								, produto(6, "Suquinho de Laranjinha",1, 4.00)
+								, produto(7, "Café Preto",1, 50.00)
 								];
 			$.each(cardapioArray, function(indice,produto){
 				$("#cardapio")
@@ -37,24 +44,17 @@
 							.append($("<td />").text(produto.valorUnitario))
 					);
 			});
-			/*					
-			for(i=0; i<cardapioArray.length; i++){
-				var produto= cardapioArray[i];
-				$("#cardapio")
-					.append(
-						$("<tr />")
-							.append($("<td />").text(produto.nome))
-							.append($("<td />").text(produto.valorUnitario))
-					)
-			}
-			
 
-			});
-			*/
 			$("#cardapio").on("click", "tr", function(){
-					var produtoEscolhido= pesquisaPorId(
-						cardapioArray, $(this).attr("id"));
-				alert($(this).attr("id"));
+					var produtoEscolhido= pesquisaPorId(cardapioArray, $(this).attr("id"));
+					$('#corpo')
+						.append(
+							$("<tr />")
+								.append($("<td />").text(produtoEscolhido.nome))
+								.append($("<td />").text(""))
+								.append($("<td />").text(produtoEscolhido.valorUnitario))
+					)
+
 			});	
 		});
 		
@@ -63,32 +63,34 @@
 <body>
 	<div>
 	<h1>Cafeteria JouTutu</h1>
+	<hr/>
 	<table id="cardapio">
 		<tr>
 			<th>Nome</th>
-			<th>Preço unitário</th>
+			<th>Preço</th>
 		</tr>
 		
 	</table>
+	<hr/>
 	<h2>Pedido</h2>
 	<table id="pedido">
-	<thead>
-		<tr>
-			<th>Nome</th>
-			<th>Quantidade</th>
-			<th>Valor unitário</th>
-			<th>Valor total por item</th>
-		</tr>
-	</thead>
-	<tbody>
-		
-	</tbody>
-	<tfoot>
-		<tr>
-			<th colspan="3">Total</th>
-			<td id="valorTotal">0</td>
-		</tr>	
-	</tfoot>	
+		<thead>
+			<tr>
+				<th>Nome</th>
+				<th>Quantidade</th>
+				<th>Valor unitário</th>
+				<th>Valor total por item</th>
+			</tr>
+		</thead>
+		<tbody id="corpo">
+			
+		</tbody>
+		<tfoot id="total">
+			<tr>
+				<th colspan="3">Total</th>
+				<td id="valorTotal">0</td>
+			</tr>	
+		</tfoot>	
 	</table>
 	</div>
 
