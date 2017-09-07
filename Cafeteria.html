@@ -8,8 +8,34 @@
 	<script type="text/javascript" src="./js/jquery.min.js"></script>
 	<script type="text/javascript">
 		$(function(){
-			function produto(id, nome, qtd, valor){
-				return {"id": id, "nome": nome, "quantidade": qtd, "valorUnitario": valor};
+
+			function carregarPedidos(){
+				$("#corpo").empty();
+					var total = 0;
+					$.each(pedidoarray, function(indice, obj){
+						$("#corpo")
+							.append($("<tr />")
+								.attr("id", obj.id)
+								.append($("<td />").text(obj.nome))
+								.append($("<td />").text(obj.quantidade))
+								.append($("<td />").text(obj.valorunitario))
+								.append($("<td />").text((obj.valorunitario * obj.quantidade)))
+								.append($("<td />")
+									.append($("<img />")
+										.attr("src", "http://superprobettanin.com.br/files/template_cache/1d18af09dbd7cc361a717491a0fab21f.png")
+										)
+									)
+							);
+						total = total + (obj.valorunitario * obj.quantidade);
+					});
+					$("#valorTotal").text(total);
+			}
+
+			function produto(id, nome, valor){
+				return {"id": id, "nome": nome, "valorUnitario": valor};
+			}
+			function pedido(id, nome, valor){
+				return {"id": id, "nome": nome, "quantidade": 1, "valorunitario": valor, "valorTotal": valor};
 			}
 			function pesquisaPorId(vetor, objId){
 				var objetoEscolhido;
@@ -20,20 +46,15 @@
 				});
 				return objetoEscolhido;
 			}
-			function calculaTotal(vetor, obj){
-				var calculo;
-				$.each(vetor, function(indice, obj){
-					calculo= calulo+numero;
-				});
-			}
+			
 			var cardapioArray=[
-								produto(1, "Espresso de Diamante",1, 4.00)
-								, produto(2, "Capuccino",1, 7.00)
-								, produto(3, "Chococcino",1, 100.00)
-								, produto(4, "Moccha",1, 8.00)
-								, produto(5, "Frapuccino",1, 13.00)
-								, produto(6, "Suquinho de Laranjinha",1, 4.00)
-								, produto(7, "Café Preto",1, 50.00)
+								produto(1, "Espresso de Diamante", 4.00)
+								, produto(2, "Capuccino", 7.00)
+								, produto(3, "Chococcino", 100.00)
+								, produto(4, "Moccha", 8.00)
+								, produto(5, "Frapuccino", 13.00)
+								, produto(6, "Suquinho de Laranjinha", 4.00)
+								, produto(7, "Café Preto", 50.00)
 								];
 			$.each(cardapioArray, function(indice,produto){
 				$("#cardapio")
@@ -45,17 +66,27 @@
 					);
 			});
 
+			var pedidoarray = [];
+			console.log(pedidoarray);
+
+
 			$("#cardapio").on("click", "tr", function(){
 					var produtoEscolhido= pesquisaPorId(cardapioArray, $(this).attr("id"));
-					$('#corpo')
-						.append(
-							$("<tr />")
-								.append($("<td />").text(produtoEscolhido.nome))
-								.append($("<td />").text(""))
-								.append($("<td />").text(produtoEscolhido.valorUnitario))
-					)
+					var escolha = pedido(produtoEscolhido.id, produtoEscolhido.nome, produtoEscolhido.valorUnitario);
+					var valida = false;
+					$.each(pedidoarray, function(i, escolhas){
+							if(escolhas.id == escolha.id){
+								escolhas.quantidade = parseInt(escolhas.quantidade) + 1;
+								valida = true;
+							}
+					})
+					if(!valida){
+						pedidoarray.push(escolha);
+					}
 
-			});	
+					carregarPedidos();
+
+			});
 		});
 		
 	</script>
@@ -80,6 +111,7 @@
 				<th>Quantidade</th>
 				<th>Valor unitário</th>
 				<th>Valor total por item</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody id="corpo">
