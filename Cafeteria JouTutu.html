@@ -22,6 +22,7 @@
 								.append($("<td />").text((obj.valorunitario * obj.quantidade)))
 								.append($("<td />")
 									.append($("<img />")
+										.attr("id", obj.id)
 										.attr("src", "http://superprobettanin.com.br/files/template_cache/1d18af09dbd7cc361a717491a0fab21f.png")
 										)
 									)
@@ -47,7 +48,7 @@
 				return objetoEscolhido;
 			}
 
-			//colocar no cardápi
+			//colocar no cardápio
 			var cardapioArray=[
 								produto(1, "Espresso de Diamante", 4.00)
 								, produto(2, "Capuccino", 7.00)
@@ -73,7 +74,7 @@
 				var nomen = $("#nome").val();
 				var precon = $("#preco").val();
 
-				var novo = produto((cardapioArray.length), nomen, precon);
+				var novo = produto((cardapioArray.length+1), nomen, precon);
 				cardapioArray.push(novo);
 
 					$("#corpocard").empty();
@@ -108,6 +109,21 @@
 					}
 
 					carregarPedidos();
+
+			});
+			console.log(pedidoarray);
+
+			//remover da tabela #pedidos
+			$("#corpo").on("click","img",function(){
+				var id= $("img").attr('id');
+				var escolhido= pesquisaPorId(pedidoarray,id);
+				console.log(escolhido);
+
+				var total= ($("#valorTotal").text())- (escolhido.valorTotal);
+				$("#valorTotal").text(total);
+				pedidoarray.splice(1, id);
+				$(this).parents("tr").empty();
+				carregarPedidos();
 
 			});
 		});
