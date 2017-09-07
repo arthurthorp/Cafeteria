@@ -5,7 +5,7 @@ body{
 	font-family: "Arial", sans-serif;
 	color: #1a0d00;
 }
-div{
+.body{
 	width: 800px;
 	margin: 1% auto;
 	background: rgba(255, 255, 255, 0.5);
@@ -14,10 +14,10 @@ div{
 	padding: 30px;
 	transition: 0.2s;
 }
-div:hover{
+.body:hover{
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-div h1{
+.body h1{
 	margin: 0;
 	font-family: 'Pacifico', cursive;
 	font-size: 3em;
@@ -32,6 +32,7 @@ div h1{
 	font-family: 'Yanone Kaffeesatz', sans-serif;
 	font-size: 1.8em;
 	color:  #331a00;
+	width: 1%;
 }
 
 #pedido img{
@@ -45,8 +46,57 @@ h2{
 	color:  #331a00;
 }
 
+label{
+	display: block;
+	margin: 5px;
+	font-family: 'Yanone Kaffeesatz', sans-serif;
+	font-size: 1.5em;
+	color: #1a0d00;
+}
+
+input{
+	display: block;
+	margin: 3% auto;
+	border-radius: 5px;
+	border: solid 1px #1a0d00;
+	color: #1a0d00;
+	background-color: rgba(255, 255, 255, 0.5);
+}
+.card{
+	width: 50%;
+}
 table{
 	width: inherit;
 	margin: 1.5% auto;
 	font-size: 1.2em;
+}
+.adicionar{
+	width: 50%;
+	margin: 3% auto;
+}
+.adicionar h2{
+	font-size: 1.8em;
+}
+.card, .adicionar{
+	float: left;
+}
+#pedido td{
+	width: 1%;
+}
+
+#pedido, h2, hr{
+	clear: both;
+}
+
+#enviar{
+	color: rgba(255, 255, 255, 0.5);
+	background-color: #331a00;
+	transition: 0.5s;
+}
+#enviar:hover{
+	box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.19);
+}
+
+#enviar:active{
+	box-shadow: none;
 }
